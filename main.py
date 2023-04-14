@@ -4,8 +4,10 @@ import numpy as np
 import pandas as pd
 import pickle
 from io import BytesIO
+import os
 
-deta = Deta("a0ffpxdsgpe_L24sS9B5wFaP5YZYPBB1VW3kWcin8ax5")
+
+deta = Deta(os.environ["DETA_KEY"])
 drive = deta.Drive("api")
 
 model_drive = drive.get("model_lgbm_03.pkl")
@@ -22,18 +24,11 @@ cluster_drive.close()
 clustering = pickle.loads(cluster_bytes)
 
 
-feat_drive = drive.get('selected_features_01.pkl')
-feat_bytes = feat_drive.read()
-feat_drive.close()
+#read sample df from github 
+df_tmp = pd.read_csv("https://raw.githubusercontent.com/CharlesLeBourhis/Projet7/main/df_sample.csv", nrows=1)
+dtypes={col:'float16' if df_tmp[col].dtype == 'float64' else 'int8' for col in df_tmp.columns}
+df = pd.read_csv("https://raw.githubusercontent.com/CharlesLeBourhis/Projet7/main/df_sample.csv", dtype=dtypes)
 
-selected_features = pickle.loads(feat_bytes)
-
-
-data_drive = drive.get('data_combined_05.parquet')
-data_bytes = data_drive.read()
-data_drive.close()
-
-df = pd.read_parquet(BytesIO(data_bytes))
 
 app = FastAPI()
 
@@ -58,5 +53,5 @@ def cluster(client):
 def client(Id):
     sk_id = int(Id)
     client = df.query("SK_ID_CURR == @sk_id")
-    score = model.predict_proba(client[selected_features].values.reshape(1, -1))[0,0]
+    score = model.predict_proba(client.values.reshape(1, -1))[0,0]
     return {"score": score,  "client_df": client.to_json()}
