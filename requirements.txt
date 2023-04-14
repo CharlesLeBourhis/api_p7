@@ -3,3 +3,5 @@ pandas
 numpy
 deta
 lightgbm 
+gunicorn
+uvicorn
