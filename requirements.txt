@@ -5,3 +5,4 @@ deta
 lightgbm 
 gunicorn
 uvicorn
+pyarrow
