@@ -24,11 +24,6 @@ cluster_drive.close()
 clustering = pickle.loads(cluster_bytes)
 
 
-#read sample df from github 
-# df_tmp = pd.read_csv("https://raw.githubusercontent.com/CharlesLeBourhis/Projet7/main/df_sample.csv", nrows=1)
-# dtypes = {col:'float16' if df_tmp[col].dtype == 'float64' else 'int8' for col in df_tmp.columns}
-# df = pd.read_csv("https://raw.githubusercontent.com/CharlesLeBourhis/Projet7/main/df_sample.csv", dtype=dtypes)
-
 df = pd.read_csv("https://raw.githubusercontent.com/CharlesLeBourhis/Projet7/main/df_sample.csv")
 
 app = FastAPI()
