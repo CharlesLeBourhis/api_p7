@@ -8,7 +8,7 @@ from io import BytesIO
 deta = Deta("a0ffpxdsgpe_L24sS9B5wFaP5YZYPBB1VW3kWcin8ax5")
 drive = deta.Drive("api")
 
-model_drive = drive.get("pipeline_lr_02.pkl")
+model_drive = drive.get("model_lgbm_03.pkl")
 model_bytes = model_drive.read()
 model_drive.close()
 
