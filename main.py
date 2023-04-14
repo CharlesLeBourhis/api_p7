@@ -53,6 +53,6 @@ def cluster(client):
 @app.post("/client")
 def client(Id):
     sk_id = int(Id)
-    client = df.query("SK_ID_CURR == @sk_id")
+    client = df.query("SK_ID_CURR == @sk_id").drop("SK_ID_CURR", axis=1)
     score = model.predict_proba(client.values.reshape(1, -1))[0,0]
     return {"score": score,  "client_df": client.to_json()}
